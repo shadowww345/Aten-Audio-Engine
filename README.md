@@ -33,7 +33,8 @@ ffi.cdef[[
    int playsound(const char *format,const char *name);
    int ateninit();
    void reverb_init(void);
-
+   void set_reverb(int rv);
+   int get_reverb();
    void reverb_set_roomsize(float value);
    void reverb_set_damp(float value);
    void reverb_set_wet(float value);
@@ -73,6 +74,14 @@ reverb(0.6,0.3,0.35,0.6,1.0);
 #### Initing Reverb
 ````C
 reverb_init();
+````
+#### Set/Getting Reverb
+**Argument 0:Reverb(Integer(1/0))** <br>
+**NOTE:This function is not directly open Reverb. This function is setting engine's data struct int reverb variable**
+**NOTE:If you do not call reverb_init() after using this function, the program will crash.**
+````C
+set_reverb(1);
+get_reverb();
 ````
 #### Setting Roomsize
 **Argument 0:Roomsize(Float)** <br>
