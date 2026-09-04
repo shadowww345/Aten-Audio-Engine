@@ -27,7 +27,7 @@ int set_channels(int channels) {
 void set_reverb(int rv) {
     g_data.reverb=rv;
 }
-void get_reverb() {
+int get_reverb() {
     return g_data.reverb;
 }
 int get_channels() {
