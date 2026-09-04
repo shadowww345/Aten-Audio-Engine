@@ -46,6 +46,7 @@ aten.set_volume(1)
 aten.playsound("mp3","music.mp3")
 aten.reverb(0.6,0.3,0.35,0.6,1.0)
 aten.ateninit()
+aten.stop_engine()
 ````
 ````C
 #include "aten.h"
@@ -55,6 +56,7 @@ int main() {
   playsound("wav","music.wav");
   reverb(0.6,0.3,0.35,0.6,1.0);
   ateninit();
+  aten.stop_engine()
 }
 ````
 **Run**
@@ -142,6 +144,7 @@ stop_loop();
 stop_sound();
 ````
 #### Stop Engine
+**NOTE:If you Dont enter this in program ending, your program will bi crash**
 ```C
 stop_engine();
 ````
