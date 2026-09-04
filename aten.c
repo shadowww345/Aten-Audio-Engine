@@ -24,6 +24,12 @@ int set_channels(int channels) {
     return 0;
 }
 
+void set_reverb(int rv) {
+    g_data.reverb=rv;
+}
+void get_reverb() {
+    return g_data.reverb;
+}
 int get_channels() {
     return DEFAULT_CHANNELS;
 }
