@@ -6,6 +6,7 @@
 #include <inttypes.h>
 #include <string.h>
 #include <pthread.h>
+#include <mp3.h>
 
 static struct data g_data = { 0, };
 static pthread_t g_audio_thread;
