@@ -1,5 +1,5 @@
-#ifndef FREEVERB_H
-#define FREEVERB_H
+#ifndef REVERB_H
+#define REVERB_H
 
 
 void reverb_init(void);
