@@ -56,7 +56,7 @@ int main() {
   playsound("wav","music.wav");
   reverb(0.6,0.3,0.35,0.6,1.0);
   ateninit();
-  aten.stop_engine()
+  stop_engine()
 }
 ````
 **Run**
