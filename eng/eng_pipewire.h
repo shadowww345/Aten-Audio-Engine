@@ -10,8 +10,8 @@
 
 #define M_PI_M2f (float)(M_PI+M_PI)
  
-#define DEFAULT_RATE            44100
-#define DEFAULT_CHANNELS        2
+extern int DEFAULT_RATE;
+extern int DEFAULT_CHANNELS;
 extern float DEFAULT_VOLUME;
 
 #define BUFFER_SIZE             (16*1024)
@@ -22,11 +22,13 @@ struct data {
     uint8_t  *audio_data;
     uint32_t  data_size;
     uint32_t  data_pos;
-
+    int reverb;
     uint16_t  channels;
     uint32_t  sample_rate;
     uint16_t  bits_per_sample;
     float accumulator;
+    volatile int loop_enabled;
+    volatile int finished;  
 };
 
 void fill_f32(struct data *d, void *dest, int n_frames);

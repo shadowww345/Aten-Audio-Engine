@@ -73,14 +73,14 @@ int load_wav(const char *path,struct data *app) {
     app->sample_rate     = hdr.sample_rate;
     app->bits_per_sample = hdr.bits_per_sample;
     app->data_pos        = 0;
-
+    DEFAULT_RATE=app->sample_rate;
+    DEFAULT_CHANNELS=app->channels;
     printf("[OK]File loaded   :\n");
     printf("  Type            : Wav\n");
     printf("  Channels        : %u\n", app->channels);
     printf("  Sample Rate     : %u Hz\n", app->sample_rate);
     printf("  Bits per sample : %u-bit\n", app->bits_per_sample);
     printf("  File Size       : %u byte\n", app->data_size);
-    printf("\n");
     double duration = (double)app->data_size /
                       (app->sample_rate * app->channels * (app->bits_per_sample / 8));
     printf("  Time            : %.2f second\n\n", duration);
