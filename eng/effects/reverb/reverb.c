@@ -274,6 +274,7 @@ static void rvprocessmix(float *inputL, float *inputR, float *outputL, float *ou
             outL = alprocess(&rv.allpassL[i], outL);
             outR = alprocess(&rv.allpassR[i], outR);
         }
+        
         *outputL += outL * rv.wet1 + outR * rv.wet2 + *inputL * rv.dry;
         *outputR += outR * rv.wet1 + outL * rv.wet2 + *inputR * rv.dry;
 
