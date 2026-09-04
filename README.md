@@ -66,14 +66,14 @@ gcc aten.c atenimp.c eng/eng_pipewire.c eng/wav.c eng/mp3.c eng/effects/reverb/r
 **Argument 2:Wet(Float)** <br>
 **Argument 3:Dry(Float)** <br>
 **Argument 4:Width(Float)** <br>
-``
+````
 reverb(0.6,0.3,0.35,0.6,1.0);
-``
+````
 #### Others:
-#### İniting Reverb
-``
+#### Initing Reverb
+````
 reverb_init();
-``
+````
 #### Setting Roomsize
 **Argument 0:Roomsize(Float)** <br>
 ````
