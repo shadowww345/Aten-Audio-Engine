@@ -16,6 +16,7 @@ sudo apt install libpipewire-0.3-common
 ## Using:
 ### LuaJIT implementation:
 ````lua
+local ffi = require("ffi")
 local aten= ffi.load("atenaudio")
 ffi.cdef[[
    int set_volume(int volume);
