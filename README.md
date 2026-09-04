@@ -61,11 +61,11 @@ gcc aten.c atenimp.c eng/eng_pipewire.c eng/wav.c eng/mp3.c eng/effects/reverb/r
 ````
 ### Using Effects
 #### Reverb:
-**Argument 0:Roomsize(Float)**
-**Argument 1:Damp(Float)**
-**Argument 2:Wet(Float)**
-**Argument 3:Dry(Float)**
-**Argument 4:Width(Float)**
+**Argument 0:Roomsize(Float)** <br>
+**Argument 1:Damp(Float)** <br>
+**Argument 2:Wet(Float)** <br>
+**Argument 3:Dry(Float)** <br>
+**Argument 4:Width(Float)** <br>
 ``
 reverb(0.6,0.3,0.35,0.6,1.0);
 ``
@@ -75,22 +75,22 @@ reverb(0.6,0.3,0.35,0.6,1.0);
 reverb_init();
 ``
 #### Setting Roomsize
-**Argument 0:Roomsize(Float)**
+**Argument 0:Roomsize(Float)** <br>
 ````
 reverb_set_roomsize(0.6f);
 ````
 #### Setting Damp
-**Argument 0:Damp(Float)**
+**Argument 0:Damp(Float)** <br>
 ````
 reverb_set_damp(0.3f);
 ````
 #### Setting Dry
-**Argument 0:Dry(Float)**
+**Argument 0:Dry(Float)** <br>
 ````
 reverb_set_dry(0.35f);
 ````
 #### Setting Width
-**Argument 0:Width(Float)**
+**Argument 0:Width(Float)** <br>
 ````
 reverb_set_width(0.6f);
 ````
@@ -100,25 +100,25 @@ reverb_set_width(0.6f);
 ateninit();
 ````
 #### Set/Getting Volume
-**Argument 0:Volume(Float)**
+**Argument 0:Volume(Float)** <br>
 ````
 set_volume(1.0f);
 get_volume();
 ````
 #### Set/Getinng Channels
-**Argument 0:Channels(Integer)**
+**Argument 0:Channels(Integer)** <br>
 ````
 set_channels(1);
 get_volume();
 ````
 #### Set/Getinng Sample Rate
-**Argument 0:Sample Rate(Integer)**
+**Argument 0:Sample Rate(Integer)** <br>
 ````
 set_samplerate(44100);
 get_samplerate();
 ````
 #### Set/Getinng Loop
-**Argument 0:Enabled(Integer(1/0))**
+**Argument 0:Enabled(Integer(1/0))** <br>
 ````
 set_loop(44100);
 get_loop();
