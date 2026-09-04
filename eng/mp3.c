@@ -10,13 +10,13 @@ int load_mp3(const char *filename, struct data *data) {
     drmp3 mp3;
 
     if (!drmp3_init_file(&mp3, filename, NULL)) {
-        printf("[ERROR] MP3 acilamadi: %s\n", filename);
+        printf("[ERROR] MP3 open failure: %s\n", filename);
         return -1;
     }
 
     drmp3_uint64 frame_count = drmp3_get_pcm_frame_count(&mp3);
     if (frame_count == 0) {
-        printf("[ERROR] MP3 bos ya da okunamadi: %s\n", filename);
+        printf("[ERROR] MP3 Header Error: %s\n", filename);
         drmp3_uninit(&mp3);
         return -1;
     }
@@ -27,7 +27,7 @@ int load_mp3(const char *filename, struct data *data) {
     size_t total_samples = (size_t)frame_count * (size_t)channels;
     int16_t *pcm = (int16_t *)malloc(total_samples * sizeof(int16_t));
     if (pcm == NULL) {
-        printf("[ERROR] MP3 icin bellek ayrilamadi\n");
+        printf("[ERROR] MP3 Malloc Error\n");
         drmp3_uninit(&mp3);
         return -1;
     }
