@@ -77,8 +77,8 @@ reverb_init();
 ````
 #### Set/Getting Reverb
 **Argument 0:Reverb(Integer(1/0))** <br>
-**NOTE:This function is not directly open Reverb. This function is setting engine's data struct int reverb variable**
-**NOTE:If you do not call reverb_init() after using this function, the program will crash.**
+**NOTE:This function is not directly open Reverb. This function is setting engine's data struct int reverb variable** <br>
+**NOTE:If you do not call reverb_init() after using this function, the program will crash.** <br>
 ````C
 set_reverb(1);
 get_reverb();
