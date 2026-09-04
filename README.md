@@ -33,7 +33,6 @@ ffi.cdef[[
    int reverb(float roomsize,float damp,float wet,float dry,float width);
    int playsound(const char *format,const char *name);
    int ateninit();
-   int stop_engine();
    void reverb_init(void);
    void set_reverb(int rv);
    int get_reverb();
