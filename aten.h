@@ -16,5 +16,6 @@ int stop_loop(void);
 int get_loop(void);
 int set_loop(int enabled);
 void set_reverb(int rv);
-void get_reverb()
+int get_reverb()
+
 #endif
