@@ -42,7 +42,8 @@ int load_mp3(const char *filename, struct data *data) {
     data->data_size   = (uint32_t)(frames_read * channels * sizeof(int16_t));
     data->data_pos    = 0;
     data->channels    = channels;
-
+    DEFAULT_RATE=data->sample_rate;
+    DEFAULT_CHANNELS=data->channels;
     printf("[OK]File loaded   :\n");
     printf("  Type            : MP3\n");
     printf("  Channels        : %d\n", channels);
