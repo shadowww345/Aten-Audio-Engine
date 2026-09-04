@@ -81,6 +81,11 @@ int playsound(const char *format,const char *name) {
         g_data.data_pos = 0;
         g_data.finished = 0;
     }
+    else if(strcmp(format,"mp3")==0) {
+        load_mp3(name,&g_data);
+        g_data.data_pos = 0;
+        g_data.finished = 0;
+    }
     else {
         printf("Invalid format or no format entered\n");
     }
