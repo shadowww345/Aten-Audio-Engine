@@ -122,7 +122,7 @@ get_volume();
 **Argument 0:Channels(Integer)** <br>
 ````C
 set_channels(1);
-get_volume();
+get_channels();
 ````
 #### Set/Getinng Sample Rate
 **Argument 0:Sample Rate(Integer)** <br>
