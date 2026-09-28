@@ -131,9 +131,9 @@ set_samplerate(44100);
 get_samplerate();
 ````
 #### Set/Getinng Loop
-**Argument 0:Enabled(Integer(1/0))** <br>
+**Argument 0:Enabled(Integer(0/1))** <br>
 ````C
-set_loop(44100);
+set_loop(1);
 get_loop();
 ````
 #### Stop Loop
