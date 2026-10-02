@@ -6,7 +6,7 @@
 #include <stdlib.h>
 #include "mp3.h"
 
-int load_mp3(const char *filename, struct data *data) {
+int load_mp3(const char *filename, struct voice *data,int debug) {
     drmp3 mp3;
 
     if (!drmp3_init_file(&mp3, filename, NULL)) {
@@ -44,16 +44,17 @@ int load_mp3(const char *filename, struct data *data) {
     data->data_size   = (uint32_t)(frames_read * channels * sizeof(int16_t));
     data->data_pos    = 0;
     data->channels    = channels;
-    DEFAULT_RATE=samplerate;
-    DEFAULT_CHANNELS=channels;
-    printf("[OK]File loaded   :\n");
-    printf("  Type            : MP3\n");
-    printf("  Channels        : %d\n", channels);
-    printf("  Sample Rate     : %d Hz\n", samplerate);
-    printf("  Frames          : %llu\n", (unsigned long long)frames_read);
-    printf("  Time            : %.2f second\n",
-           (double)frames_read / (double)samplerate);
-
+    if(debug) {
+        printf("[OK]File loaded   :\n");
+        printf("  File Name       : ");
+        printf("%s",filename);
+        printf("\n  Type            : MP3\n");
+        printf("  Channels        : %d\n", channels);
+        printf("  Sample Rate     : %d Hz\n", samplerate);
+        printf("  Frames          : %llu\n", (unsigned long long)frames_read);
+        printf("  Time            : %.2f second\n",
+            (double)frames_read / (double)samplerate);
+    }
     drmp3_uninit(&mp3);
     return 0;
 }
