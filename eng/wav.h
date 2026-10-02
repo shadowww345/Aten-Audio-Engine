@@ -9,8 +9,8 @@
 #include <math.h>
 #include <signal.h>
 #include "eng_pipewire.h"
-struct data;
-
+struct voice;
+struct sample;
 typedef struct {
     char     riff[4];
     uint32_t file_size;
@@ -26,8 +26,9 @@ typedef struct {
     char     data[4];
     uint32_t data_size;
 } WAV_H;
-
-
-int load_wav(const char *path,struct data *app_d);
+// loading playing sample coming soon for mp3
+int load_wav(const char *path,struct voice *app,int debug);
+int play_loaded_wav_sample(struct sample *s,struct voice *vc);
+int load_wav_sample(const char*sample_path,struct sample *app);
 
 #endif
