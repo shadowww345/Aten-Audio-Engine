@@ -3,7 +3,7 @@
 int load_wav(const char *path,struct voice *app,int debug) {
     FILE *f = fopen(path, "rb");
     if (!f) {
-        fprintf(stderr, "[ERROR]File: File not opened\n");
+        fprintf(stderr, "\e[1;31m[ERROR]\e[0mFile: File not opened\n");
         return -1;
     }
 
@@ -12,11 +12,11 @@ int load_wav(const char *path,struct voice *app,int debug) {
     if (fread(&hdr.riff,   1, 4,  f) != 4  ||
         fread(&hdr.file_size, 1, 4,  f) != 4  ||
         fread(&hdr.wave,   1, 4,  f) != 4) {
-        fprintf(stderr, "[ERROR]WAV:RIFF header read error\n");
+        fprintf(stderr, "\e[1;31m[ERROR]\e[0mWAV:RIFF header read error\n");
         fclose(f); return -1;
     }
     if (memcmp(hdr.riff, "RIFF", 4) || memcmp(hdr.wave, "WAVE", 4)) {
-        fprintf(stderr, "[ERROR]File: is not valid wav file\n");
+        fprintf(stderr, "\e[1;31m[ERROR]\e[0mFile: is not valid wav file\n");
         fclose(f); return -1;
     }
 
@@ -45,11 +45,11 @@ int load_wav(const char *path,struct voice *app,int debug) {
             app->data_size = chunk_size;
             app->audio_data = malloc(chunk_size);
             if (!app->audio_data) {
-                fprintf(stderr, "[ERROR]Memory:Out of memory\n");
+                fprintf(stderr, "\e[1;31m[ERROR]\e[0mMemory:Out of memory\n");
                 fclose(f); return -1;
             }
             if (fread(app->audio_data, 1, chunk_size, f) != chunk_size) {
-                fprintf(stderr, "[ERROR]File: Sound data read error\n");
+                fprintf(stderr, "\e[1;31m[ERROR]\e[0mFile: Sound data read error\n");
                 free(app->audio_data); fclose(f); return -1;
             }
             got_data = 1;
@@ -61,11 +61,11 @@ int load_wav(const char *path,struct voice *app,int debug) {
     fclose(f);
 
     if (!got_fmt || !got_data) {
-        fprintf(stderr, "[Error]WAV:fmt or data chunk not found\n");
+        fprintf(stderr, "\e[1;31m[ERROR]\e[0mWAV:fmt or data chunk not found\n");
         return -1;
     }
     if (hdr.audio_format != 1) {
-        fprintf(stderr, "[ERROR]File: Unsupported sound format\n");
+        fprintf(stderr, "\e[1;31m[ERROR]\e[0mFile: Unsupported sound format\n");
         return -1;
     }
 
@@ -74,7 +74,7 @@ int load_wav(const char *path,struct voice *app,int debug) {
     app->bits_per_sample = hdr.bits_per_sample;
     app->data_pos        = 0;
     if(debug) {
-    printf("[OK]File loaded   :\n");
+    printf("\e[1;32m[OK]\e[0mFile loaded   :\n");
     printf("  File Name       : ");
     printf("%s",path);
     printf("\n  Type            : WAVE\n");
@@ -89,10 +89,10 @@ int load_wav(const char *path,struct voice *app,int debug) {
     return 0;
 }
 
-int load_wav_sample(const char*sample_path,struct sample *app) {
+int load_wav_sample(const char*sample_path,struct sample *app,int debug) {
     FILE *f = fopen(sample_path, "rb");
     if (!f) {
-        fprintf(stderr, "[ERROR]File: File not opened\n");
+        fprintf(stderr, "\e[1;31m[ERROR]\e[0mFile: File not opened\n");
         return -1;
     }
 
@@ -101,11 +101,11 @@ int load_wav_sample(const char*sample_path,struct sample *app) {
     if (fread(&hdr.riff,   1, 4,  f) != 4  ||
         fread(&hdr.file_size, 1, 4,  f) != 4  ||
         fread(&hdr.wave,   1, 4,  f) != 4) {
-        fprintf(stderr, "[ERROR]WAV:RIFF header read error\n");
+        fprintf(stderr, "\e[1;31m[ERROR]\e[0mWAV:RIFF header read error\n");
         fclose(f); return -1;
     }
     if (memcmp(hdr.riff, "RIFF", 4) || memcmp(hdr.wave, "WAVE", 4)) {
-        fprintf(stderr, "[ERROR]File: is not valid wav file\n");
+        fprintf(stderr, "\e[1;31m[ERROR]\e[0mFile: is not valid wav file\n");
         fclose(f); return -1;
     }
 
@@ -134,11 +134,11 @@ int load_wav_sample(const char*sample_path,struct sample *app) {
             app->data_size = chunk_size;
             app->audio_data = malloc(chunk_size);
             if (!app->audio_data) {
-                fprintf(stderr, "[ERROR]Memory:Out of memory\n");
+                fprintf(stderr, "\e[1;31m[ERROR]\e[0mMemory:Out of memory\n");
                 fclose(f); return -1;
             }
             if (fread(app->audio_data, 1, chunk_size, f) != chunk_size) {
-                fprintf(stderr, "[ERROR]File: Sound data read error\n");
+                fprintf(stderr, "\e[1;31m[ERROR]\e[0mFile: Sound data read error\n");
                 free(app->audio_data); fclose(f); return -1;
             }
             got_data = 1;
@@ -150,11 +150,11 @@ int load_wav_sample(const char*sample_path,struct sample *app) {
     fclose(f);
 
     if (!got_fmt || !got_data) {
-        fprintf(stderr, "[Error]WAV:fmt or data chunk not found\n");
+        fprintf(stderr, "\e[1;31m[ERROR]\e[0mWAV:fmt or data chunk not found\n");
         return -1;
     }
     if (hdr.audio_format != 1) {
-        fprintf(stderr, "[ERROR]File: Unsupported sound format\n");
+        fprintf(stderr, "\e[1;31m[ERROR]\e[0mFile: Unsupported sound format\n");
         return -1;
     }
 
@@ -162,33 +162,37 @@ int load_wav_sample(const char*sample_path,struct sample *app) {
     app->sample_rate     = hdr.sample_rate;
     app->bits_per_sample = hdr.bits_per_sample;
     atomic_store(&app->loaded,1);
-    printf("[OK]Sample loaded   :\n");
-    printf("  Sample Path       : ");
+    if(debug) {
+    printf("\e[1;32m[OK]\e[0mSample loaded   |\n");
+    printf("  Sample Path       | ");
     printf("%s",sample_path);
-    printf("\n  Type            : WAVE\n");
-    printf("  Channels        : %u\n", app->channels);
-    printf("  Sample Rate     : %u Hz\n", app->sample_rate);
-    printf("  Bits per sample : %u-bit\n", app->bits_per_sample);
-    printf("  File Size       : %u byte\n", app->data_size);
+    printf("\n  Type            | WAVE\n");
+    printf("  Channels        | %u\n", app->channels);
+    printf("  Sample Rate     | %u Hz\n", app->sample_rate);
+    printf("  Bits per sample | %u-bit\n", app->bits_per_sample);
+    printf("  File Size       | %u byte\n", app->data_size);
     double duration = (double)app->data_size /
                       (app->sample_rate * app->channels * (app->bits_per_sample / 8));
     printf("  Time            : %.2f second\n\n", duration);
+    }
 }
 
-int play_loaded_wav_sample(struct sample *s,struct voice *vc) {
+int play_loaded_wav_sample(struct sample *s,struct voice *vc,int debug) {
     vc->audio_data      = s->audio_data;
     vc->data_size       = s->data_size;
     vc->channels        = s->channels;
     vc->sample_rate     = s->sample_rate;
     vc->bits_per_sample = s->bits_per_sample;
     vc->data_pos        = 0;
-    printf("[OK]Sample Playing   :\n");
-    printf("\n  Type            : WAVE\n");
-    printf("  Channels        : %u\n", vc->channels);
-    printf("  Sample Rate     : %u Hz\n", vc->sample_rate);
-    printf("  Bits per sample : %u-bit\n", vc->bits_per_sample);
-    printf("  File Size       : %u byte\n", vc->data_size);
+    if(debug) {
+    printf("\e[1;32m[OK]\e[0mSample Playing   |\n");
+    printf("  Type            | WAVE\n");
+    printf("  Channels        | %u\n", vc->channels);
+    printf("  Sample Rate     | %u Hz\n", vc->sample_rate);
+    printf("  Bits per sample | %u-bit\n", vc->bits_per_sample);
+    printf("  File Size       | %u byte\n", vc->data_size);
     double duration = (double)vc->data_size /
                       (vc->sample_rate * vc->channels * (vc->bits_per_sample / 8));
-    printf("  Time            : %.2f second\n\n", duration);
+    printf("  Time            | %.2f second\n\n", duration);
+    }
 }
