@@ -42,13 +42,16 @@ struct voice {
     int       owns_audio_data;
     int       sample_ref;
     atomic_int paused;
+    float      fade;
     atomic_int reverb_send;
+    atomic_int echo_send;
     atomic_int loop_enabled;
     atomic_int finished;
     atomic_int state;
 };
 
 #define MAX_SAMPLES 128
+
 struct sample {
     uint8_t   *audio_data;
     uint32_t   data_size;
@@ -68,6 +71,7 @@ struct data {
     pthread_mutex_t alloc_lock;
     int reverb;
     int debug;
+    int echo;
     uint16_t channels;
     uint32_t sample_rate;
 };
