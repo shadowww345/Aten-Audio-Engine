@@ -1,6 +1,8 @@
 #include "eng_pipewire.h"
 #include "wav.h"
 #include <effects/reverb/reverb.h>
+#include <effects/echo/echo.h>
+#include <effects/spectrum/spectrum.h>
 #include <string.h>
 
 float DEFAULT_VOLUME = 0.7f;
@@ -54,7 +56,13 @@ void on_process(void *userdata)
     if (data->reverb)
         memset(wet_send, 0, (size_t)n_frames * stride);
 
+    float echo_send[MAX_BLOCK_FRAMES * 2];
+    int any_echo_send = 0, echo_ran = 0;
+    if (data->echo)
+        memset(echo_send, 0, (size_t)n_frames * stride);
+
     int any_active = 0;
+    const float fade_step = 1.0f / (0.015f * (float)DEFAULT_RATE);
 
     for (int vi = 0; vi < MAX_VOICES; vi++) {
         struct voice *v = &data->voices[vi];
@@ -67,6 +75,10 @@ void on_process(void *userdata)
             release_voice_slot(data, v);
             continue;
         }
+
+        int is_paused_now = atomic_load(&v->paused);
+        if (is_paused_now && v->fade <= 0.0f)
+            continue;
 
         any_active = 1;
 
@@ -82,12 +94,26 @@ void on_process(void *userdata)
         int send_this_voice = data->reverb && atomic_load(&v->reverb_send);
         if (send_this_voice)
             any_reverb_send = 1;
-
-        for (int i = 0; i < frames_to_copy * data->channels; i++) {
-            float s = (src[i] / 32768.0f) * vol;
-            dst[i] += s;
-            if (send_this_voice)
-                wet_send[i] += s;
+        int send_echo = data->echo && atomic_load(&v->echo_send);
+        if (send_echo) any_echo_send = 1;
+        float fade_target = is_paused_now ? 0.0f : 1.0f;
+        for (int f = 0; f < frames_to_copy; f++) {
+            if (v->fade < fade_target) {
+                v->fade += fade_step;
+                if (v->fade > fade_target) v->fade = fade_target;
+            } else if (v->fade > fade_target) {
+                v->fade -= fade_step;
+                if (v->fade < fade_target) v->fade = fade_target;
+            }
+            for (int c = 0; c < data->channels; c++) {
+                int i = f * data->channels + c;
+                float s = (src[i] / 32768.0f) * vol * v->fade;
+                dst[i] += s;
+                if (send_this_voice)
+                    wet_send[i] += s;
+                if (send_echo)
+                    echo_send[i] += s;
+            }
         }
 
         v->data_pos += frames_to_copy * (sizeof(int16_t) * v->channels);
@@ -109,17 +135,27 @@ void on_process(void *userdata)
             dst[i] += wet_send[i];
         }
     }
+    if (data->echo && data->channels <= 2 && (any_echo_send || echo_has_tail())) {
+        echo_process_replace(echo_send, n_frames, data->channels);
+        for (int i = 0; i < n_frames * data->channels; i++)
+            dst[i] += echo_send[i];
+        echo_ran = 1;
+    }
 
     if (any_active || any_reverb_send) {
         for (int i = 0; i < n_frames * data->channels; i++) {
             dst[i] = clamp_sample(dst[i]);
         }
     }
-
+    if (any_active || any_reverb_send || echo_ran) { 
+        for (int i = 0; i < n_frames * data->channels; i++) {
+            dst[i] = clamp_sample(dst[i]);
+        }
+    }
     buf->datas[0].chunk->offset = 0;
     buf->datas[0].chunk->stride = stride;
     buf->datas[0].chunk->size = n_frames * stride;
-
+    spectrum_push(dst, n_frames, data->channels);
     pw_stream_queue_buffer(data->stream, b);
 }
 
