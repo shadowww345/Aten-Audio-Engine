@@ -26,9 +26,9 @@ typedef struct {
     char     data[4];
     uint32_t data_size;
 } WAV_H;
-// loading playing sample coming soon for mp3
+
 int load_wav(const char *path,struct voice *app,int debug);
-int play_loaded_wav_sample(struct sample *s,struct voice *vc);
-int load_wav_sample(const char*sample_path,struct sample *app);
+int play_loaded_wav_sample(struct sample *s,struct voice *vc,int debug);
+int load_wav_sample(const char*sample_path,struct sample *app,int debug);
 
 #endif
