@@ -1,4 +1,8 @@
 /* Freeverb Algorithm */
+// SPDX-License-Identifier: Apache-2.0
+/* Reverb is based on Freeverb by Jezar at Dreampoint (June 2000),
+ * released into the public domain. Ported to C and merged into a
+ * single file by Aten. */
 #include <stdio.h>
 #include <string.h>
 #include "reverb.h"
