@@ -11,7 +11,8 @@ sudo apt install libpipewire-0.3-common
 ``
 
 ### Effects
-**Reverb:Freeverb Algorithm**
+**Reverb:Freeverb Algorithm** 
+
 **Echo:Generic Echo Algorithm**
 
 ## Using:
