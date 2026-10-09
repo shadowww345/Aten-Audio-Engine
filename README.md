@@ -1,5 +1,5 @@
 # Aten-Audio-Engine
-## Aten is a Linux Pipewire Audio Engine
+## Aten is a Multi-Threaded Linux Pipewire Audio Engine
 
 ### For build
 ``
