@@ -12,6 +12,7 @@ sudo apt install libpipewire-0.3-common
 
 ### Effects
 **Reverb:Freeverb Algorithm**
+**Echo:Generic Echo Algorithm**
 
 ## Using:
 ### LuaJIT implementation:
@@ -90,6 +91,6 @@ int main(void) {
 ````
 **Run**
 ````bash
-gcc aten.c atenimp.c eng/eng_pipewire.c eng/wav.c eng/mp3.c eng/effects/reverb/reverb.c -o aten -lpthread $(pkg-config --cflags --libs libpipewire-0.3) -lm -Ieng
+gcc -O3 aten.c test.c eng/eng_pipewire.c eng/wav.c eng/mp3.c eng/effects/reverb/reverb.c eng/resample.c eng/effects/echo/echo.c eng/effects/spectrum/spectrum.c -o player -lpthread $(pkg-config --cflags --libs libpipewire-0.3) -lm -Ieng
 ````
 
